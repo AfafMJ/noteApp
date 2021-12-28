@@ -5,23 +5,21 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DBHelper(context: Context): SQLiteOpenHelper(context, "note.db", null, 1) {
+class DBHelper(ctx: Context): SQLiteOpenHelper(ctx, "notes.db", null, 1) {
 
-    private var SQLiteDatabase: SQLiteDatabase = writableDatabase
+    private val sqLite: SQLiteDatabase = writableDatabase
 
-    override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("create table Note (Content text)")
+    override fun onCreate(p0: SQLiteDatabase?) {
+        p0?.execSQL("create table notes (note Text)")
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
         TODO("Not yet implemented")
     }
 
-    fun addNote (content: String): Boolean {
-        val contentValues = ContentValues()
-        contentValues.put("Content", content)
-        var status = SQLiteDatabase.insert("Note", null, contentValues)
-        return status != -1L
+    fun addNotes(note: String): Long{
+        val cv = ContentValues()
+        cv.put("note", note)
+        return sqLite.insert("notes", null, cv)
     }
-
 }
